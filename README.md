@@ -104,7 +104,9 @@
   // price_per_person - цена за человека в рублях
   "price_per_person": 500,
   // location - местро проведения игры
-  "location": "345 аудитория"
+  "location": "345 аудитория",
+  // registeredTeamsAmount - количество зарегестрированных команд
+  "registeredTeamsAmount": 12
 }
 ```
 
@@ -169,6 +171,8 @@
 
 ```json
 {
+  // gameID - id игры на которую нужно зарегаться
+  "gameID": 1,
   // tramName - навзание команды
   "teamName": "Ураган Донам",
   // captainName - имя капитана
