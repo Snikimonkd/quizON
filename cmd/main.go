@@ -1,15 +1,24 @@
 package main
 
 import (
-	"log"
-	"os"
+	"net/http"
+	"quizON/interanl/config"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
+)
+
+const (
+	configPath = ""
 )
 
 func main() {
-	// открываем файл с конфигом
-	file, err := os.Open("configPath")
-	if err != nil {
-		log.Fatalf("can't open file: %v", err)
-	}
-	defer file.Close()
+	con, err := config.NewConfig()
+
+	r := chi.NewRouter()
+	r.Use(middleware.Logger)
+	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("welcome"))
+	})
+	http.ListenAndServe(":3000", r)
 }
