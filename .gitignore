@@ -6,6 +6,6 @@
 .DS_Store
 /.idea
 /.vscode
-
+/internal/temp
 cover.out
 cover.out.tmp
