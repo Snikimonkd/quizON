@@ -1,6 +1,6 @@
 package apiModels
 
 type LoginRequest struct {
-	Login    string `db:"login" json:"login"`
-	Password string `db:"password" json:"password"`
+	Login    string `json:"login" validate:"required"`
+	Password string `json:"password" validate:"required"`
 }

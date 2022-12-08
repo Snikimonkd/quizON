@@ -1,6 +1,11 @@
 package repository
 
-import "github.com/jackc/pgx/v4"
+import (
+	"github.com/jackc/pgx/v4"
+	"github.com/pkg/errors"
+)
+
+var NotFoundError = errors.New("not found")
 
 // repository - слой хранения
 type repository struct {

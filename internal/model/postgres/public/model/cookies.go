@@ -13,7 +13,7 @@ import (
 )
 
 type Cookies struct {
-	UserID    int32 `db:"user_id"`
-	Value     uuid.UUID `db:"value"`
-	ExpiresAt time.Time `db:"expires_at"`
+	UserID    int32
+	Value     uuid.UUID
+	ExpiresAt time.Time
 }

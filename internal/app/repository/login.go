@@ -2,13 +2,13 @@ package repository
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"quizON/internal/app/helpers"
 	"quizON/internal/model/postgres/public/model"
 	"quizON/internal/model/postgres/public/table"
 
 	"github.com/go-jet/jet/v2/postgres"
-	"github.com/google/uuid"
 	"github.com/jackc/pgx/v4"
 	"github.com/pkg/errors"
 )
@@ -26,10 +26,10 @@ func (r *repository) GetUserByLogin(ctx context.Context, tx pgx.Tx, login string
 
 	err := tx.QueryRow(ctx, query, args...).Scan(&user.ID, &user.Login, &user.Password)
 	if errors.Is(err, pgx.ErrNoRows) {
-		return model.Users{}, helpers.NewHttpError(http.StatusForbidden, err, helpers.WrongLoginOrPassword)
+		return model.Users{}, helpers.NewHttpError(http.StatusForbidden, err, helpers.AuthenticationError)
 	}
 	if err != nil {
-		return model.Users{}, helpers.NewHttpError(http.StatusInternalServerError, err, helpers.EmptyResponse)
+		return model.Users{}, helpers.NewInternalError(fmt.Errorf("can't get user by login: %w", err))
 	}
 
 	return user, nil
@@ -37,24 +37,22 @@ func (r *repository) GetUserByLogin(ctx context.Context, tx pgx.Tx, login string
 
 func (r *repository) CreateCookie(ctx context.Context, tx pgx.Tx, id int32) (model.Cookies, error) {
 	cookie := model.Cookies{
-		Value:  uuid.New(),
 		UserID: id,
 	}
 
 	stmt := table.Cookies.INSERT(
 		table.Cookies.UserID,
-		table.Cookies.Value,
 	).VALUES(
 		id,
-		uuid.New(),
 	).RETURNING(
+		table.Cookies.Value,
 		table.Cookies.ExpiresAt,
 	)
 	query, args := stmt.Sql()
 
-	err := tx.QueryRow(ctx, query, args...).Scan(&cookie.ExpiresAt)
+	err := tx.QueryRow(ctx, query, args...).Scan(&cookie.Value, &cookie.ExpiresAt)
 	if err != nil {
-		return model.Cookies{}, helpers.NewHttpError(http.StatusInternalServerError, err, helpers.EmptyResponse)
+		return model.Cookies{}, helpers.NewInternalError(fmt.Errorf("can't create cookie: %w", err))
 	}
 
 	return cookie, nil

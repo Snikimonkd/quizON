@@ -1,4 +1,4 @@
-LOCAL_DB_DSN:=$(shell grep -A1 'database' config.yaml | tail -n1 | sed "s/.*dsn: //g" | sed "s/\"//g")
+LOCAL_DB_DSN:=$(shell grep -A1 'database' local_config.yaml | tail -n1 | sed "s/.*dsn: //g" | sed "s/\"//g")
 
 create-migration:
 	goose -dir migrations create $(NAME) sql
@@ -13,4 +13,4 @@ run:
 	go run cmd/main.go
 
 jet:
-	@PATH=$(LOCAL_BIN):$(PATH) jet -dsn $(LOCAL_DB_DSN) -path=./internal/temp/model -schema=public
+	@PATH=$(LOCAL_BIN):$(PATH) jet -dsn $(LOCAL_DB_DSN) -path=./internal/model -schema=public

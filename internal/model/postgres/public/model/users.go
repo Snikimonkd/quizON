@@ -8,7 +8,7 @@
 package model
 
 type Users struct {
-	ID       int32 `sql:"primary_key" db:"id" json:"idm,omitempty"`
-	Login    string `db:"login" json:"login"`
-	Password []byte `db:"password" json:"password,omitempty"`
+	ID       int32 `sql:"primary_key"`
+	Login    string
+	Password []byte
 }

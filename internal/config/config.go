@@ -10,7 +10,7 @@ import (
 var GlobalConfig config
 
 const (
-	configPath = "config.yaml"
+	configPath = "local_config.yaml"
 )
 
 func init() {
@@ -21,7 +21,7 @@ func init() {
 	defer func() {
 		deferErr := file.Close()
 		if err != nil {
-			logger.Fatalf("unexpected error: %v", deferErr)
+			logger.Fatalf("can't close file: %v", deferErr)
 		}
 	}()
 

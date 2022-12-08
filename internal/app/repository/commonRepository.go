@@ -2,15 +2,21 @@ package repository
 
 import (
 	"context"
-	"net/http"
+	"fmt"
 	"quizON/internal/app/helpers"
 	"quizON/internal/logger"
 
 	"github.com/jackc/pgx/v4"
-	"github.com/pkg/errors"
 )
 
-// commonRepository - репозиторий с общими функциями
+// CommonRepository - общий репозиторий
+type CommonRepository interface {
+	BeginTx(ctx context.Context) (pgx.Tx, error)
+	CommitTx(ctx context.Context, tx pgx.Tx) error
+	RollBackUnlessCommitted(ctx context.Context, tx pgx.Tx)
+}
+
+// commonRepository - реализация общего репозитория
 type commonRepository struct {
 	db *pgx.Conn
 }
@@ -24,7 +30,7 @@ func NewCommonRepository(db *pgx.Conn) *commonRepository {
 func (c *commonRepository) BeginTx(ctx context.Context) (pgx.Tx, error) {
 	tx, err := c.db.BeginTx(ctx, pgx.TxOptions{})
 	if err != nil {
-		return nil, helpers.NewHttpError(http.StatusInternalServerError, errors.Wrap(err, "can't begin transaction"), helpers.EmptyResponse)
+		return nil, helpers.NewInternalError(fmt.Errorf("can't begin transaction: %w", err))
 	}
 
 	return tx, nil
@@ -34,7 +40,7 @@ func (c *commonRepository) BeginTx(ctx context.Context) (pgx.Tx, error) {
 func (c *commonRepository) CommitTx(ctx context.Context, tx pgx.Tx) error {
 	err := tx.Commit(ctx)
 	if err != nil {
-		return helpers.NewHttpError(http.StatusInternalServerError, errors.Wrap(err, "can't begin transaction"), helpers.EmptyResponse)
+		return helpers.NewInternalError(fmt.Errorf("can't cpmmit transaction: %w", err))
 	}
 
 	return nil

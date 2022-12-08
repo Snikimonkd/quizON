@@ -2,7 +2,6 @@ package delivery
 
 import (
 	"context"
-	"encoding/json"
 	"net/http"
 	"quizON/internal/app/helpers"
 	"quizON/internal/model/apiModels"
@@ -17,11 +16,15 @@ func (d *delivery) Login(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var user apiModels.LoginRequest
-	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&user)
+	err := MarshalRequest(r.Body, &user)
 	if err != nil {
-		retErr := helpers.NewHttpError(http.StatusBadRequest, err, err.Error())
-		helpers.HandleHttpError(w, retErr)
+		helpers.HandleHttpError(w, err)
+		return
+	}
+
+	err = apiModels.Validate(user)
+	if err != nil {
+		helpers.HandleHttpError(w, err)
 		return
 	}
 

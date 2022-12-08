@@ -1,14 +1,14 @@
 -- +goose Up
 -- +goose StatementBegin
 CREATE TABLE users(
-    id SERIAL PRIMARY KEY NOT NULL,
+    id serial PRIMARY KEY NOT NULL,
     login text NOT NULL UNIQUE,
     password bytea NOT NULL
 );
 
 CREATE TABLE cookies(
-    user_id INTEGER NOT NULL,
-    value uuid NOT NULL,
+    user_id integer NOT NULL,
+    value uuid NOT NULL DEFAULT gen_random_uuid(),
     expires_at timestamptz NOT NULL DEFAULT now() + interval '1 day',
     FOREIGN KEY(user_id) REFERENCES users(id)
 );
