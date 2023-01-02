@@ -14,27 +14,30 @@ import (
 
 // delivery - слой доставки
 type delivery struct {
-	loginUsecase      LoginUsecase
-	createGameUsecase CreateGameUsecase
-	getGamesUsecase   GetGamesUsecase
-	registerUsecase   RegisterUsecase
+	loginUsecase            LoginUsecase
+	createGameUsecase       CreateGameUsecase
+	getGamesUsecase         GetGamesUsecase
+	registerUsecase         RegisterUsecase
+	getRegistrationsUsecase GetRegistrationsUsecase
 }
 
 // NewDelivery - конструктор для слоя доставки
 func NewDelivery(db *pgx.Conn) *delivery {
-	commonRepository := repository.NewCommonRepository(db)
-	repository := repository.NewRepository(db)
+	commonRepo := repository.NewCommonRepository(db)
+	repo := repository.NewRepository(db)
 
-	loginUsecase := usecase.NewLoginUsecase(repository, commonRepository)
-	createGameUsecase := usecase.NewCreateGameUsecase(repository, commonRepository)
-	getGamesUsecase := usecase.NewGetGamesUsecase(repository)
-	registerUsecase := usecase.NewRegisterUsecase(repository, commonRepository)
+	loginUsecase := usecase.NewLoginUsecase(repo, commonRepo)
+	createGameUsecase := usecase.NewCreateGameUsecase(repo, commonRepo)
+	getGamesUsecase := usecase.NewGetGamesUsecase(repo)
+	registerUsecase := usecase.NewRegisterUsecase(repo, commonRepo)
+	getRegistrationsUsecase := usecase.NewGetRegistrationsUsecase(repo)
 
 	return &delivery{
-		loginUsecase:      loginUsecase,
-		createGameUsecase: createGameUsecase,
-		getGamesUsecase:   getGamesUsecase,
-		registerUsecase:   registerUsecase,
+		loginUsecase:            loginUsecase,
+		createGameUsecase:       createGameUsecase,
+		getGamesUsecase:         getGamesUsecase,
+		registerUsecase:         registerUsecase,
+		getRegistrationsUsecase: getRegistrationsUsecase,
 	}
 }
 

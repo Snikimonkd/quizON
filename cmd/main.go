@@ -24,11 +24,11 @@ func main() {
 	checkCookieMiddleware := cookieMiddleware.NewCheckCookieMiddleware(db)
 	service := delivery.NewDelivery(db)
 
-	// создание игры только для залогиненных админов
 	r.With(checkCookieMiddleware.CheckCookie).Post("/game", service.CreateGame)
+	r.With(checkCookieMiddleware.CheckCookie).Get("/registrations", service.GetRegistrations)
 
 	r.Post("/login", service.Login)
-	r.Post("/register", service.Register)
+	r.Post("/registration", service.Register)
 
 	r.Get("/games", service.GetGames)
 

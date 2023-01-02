@@ -46,7 +46,7 @@ func pgToHttpGame(in model.Games) apiModels.Game {
 	}
 }
 
-func httpToPgRegister(in apiModels.RegisterRequest) model.Registrations {
+func httpToPgRegistration(in apiModels.RegisterRequest) model.Registrations {
 	return model.Registrations{
 		GameID:      in.GameID,
 		TeamName:    in.TeamName,
@@ -54,5 +54,17 @@ func httpToPgRegister(in apiModels.RegisterRequest) model.Registrations {
 		Phone:       in.Phone,
 		Telega:      in.Telega,
 		Amount:      in.Amount,
+	}
+}
+
+func pgToHttpRegistration(in model.Registrations) apiModels.Registration {
+	return apiModels.Registration{
+		TeamName:           in.TeamName,
+		CaptainName:        in.CaptainName,
+		Phone:              in.Phone,
+		Telega:             in.Telega,
+		Amount:             in.Amount,
+		RegistrationNumber: in.RegistrationNumber,
+		CreatedAt:          in.CreatedAt,
 	}
 }

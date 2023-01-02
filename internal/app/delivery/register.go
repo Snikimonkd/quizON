@@ -28,7 +28,7 @@ func (d *delivery) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	registration := httpToPgRegister(req)
+	registration := httpToPgRegistration(req)
 
 	num, err := d.registerUsecase.Register(ctx, registration)
 	if err != nil {
