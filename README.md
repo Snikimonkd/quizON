@@ -51,6 +51,8 @@
   "date": "2018-12-10T13:49:51.141Z",
   // teams_amount - количество команд на игре
   "teams_amount": 20,
+  // registered_teams - количество зарегистрированных команд
+  "registered_teams": 17,
   // price_per_person - цена за человека в рублях
   "price_per_person": 500,
   // location - местро проведения игры
@@ -74,6 +76,8 @@
   "date": "2018-12-10T13:49:51.141Z",
   // teams_amount - количество команд на игре
   "teams_amount": 20,
+  // registered_teams - количество зарегистрированных команд
+  "registered_teams": 17,
   // price_per_person - цена за человека в рублях
   "price_per_person": 500,
   // location - местро проведения игры

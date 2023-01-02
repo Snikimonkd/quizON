@@ -12,14 +12,15 @@ import (
 )
 
 type Games struct {
-	ID             int32 `sql:"primary_key"`
-	Name           string
-	Description    string
-	Date           time.Time
-	TeamsAmount    int32
-	PricePerPerson int32
-	Location       string
-	CreatedAt      time.Time
-	UpdatedAt      time.Time
-	CreatedBy      int32
+	ID              int32 `sql:"primary_key"`
+	Name            string
+	Description     string
+	Date            time.Time
+	TeamsAmount     int32
+	PricePerPerson  int32
+	Location        string
+	CreatedAt       time.Time
+	UpdatedAt       time.Time
+	CreatedBy       int32
+	RegisteredTeams int32
 }

@@ -41,8 +41,8 @@ func (h httpError) Error() string {
 	return h.Error()
 }
 
-// HandleHttpError - правильно записывает http ошибки
-func HandleHttpError(w http.ResponseWriter, err error) {
+// HandleError - правильно записывает http ошибки
+func HandleError(w http.ResponseWriter, err error) {
 	// маппим ошибку к нашей HttpError
 	httpErr, ok := err.(httpError)
 	// если не удалось замаппить, то что-то сильно идет не по плану

@@ -17,16 +17,17 @@ type gamesTable struct {
 	postgres.Table
 
 	//Columns
-	ID             postgres.ColumnInteger
-	Name           postgres.ColumnString
-	Description    postgres.ColumnString
-	Date           postgres.ColumnTimestampz
-	TeamsAmount    postgres.ColumnInteger
-	PricePerPerson postgres.ColumnInteger
-	Location       postgres.ColumnString
-	CreatedAt      postgres.ColumnTimestampz
-	UpdatedAt      postgres.ColumnTimestampz
-	CreatedBy      postgres.ColumnInteger
+	ID              postgres.ColumnInteger
+	Name            postgres.ColumnString
+	Description     postgres.ColumnString
+	Date            postgres.ColumnTimestampz
+	TeamsAmount     postgres.ColumnInteger
+	PricePerPerson  postgres.ColumnInteger
+	Location        postgres.ColumnString
+	CreatedAt       postgres.ColumnTimestampz
+	UpdatedAt       postgres.ColumnTimestampz
+	CreatedBy       postgres.ColumnInteger
+	RegisteredTeams postgres.ColumnInteger
 
 	AllColumns     postgres.ColumnList
 	MutableColumns postgres.ColumnList
@@ -67,34 +68,36 @@ func newGamesTable(schemaName, tableName, alias string) *GamesTable {
 
 func newGamesTableImpl(schemaName, tableName, alias string) gamesTable {
 	var (
-		IDColumn             = postgres.IntegerColumn("id")
-		NameColumn           = postgres.StringColumn("name")
-		DescriptionColumn    = postgres.StringColumn("description")
-		DateColumn           = postgres.TimestampzColumn("date")
-		TeamsAmountColumn    = postgres.IntegerColumn("teams_amount")
-		PricePerPersonColumn = postgres.IntegerColumn("price_per_person")
-		LocationColumn       = postgres.StringColumn("location")
-		CreatedAtColumn      = postgres.TimestampzColumn("created_at")
-		UpdatedAtColumn      = postgres.TimestampzColumn("updated_at")
-		CreatedByColumn      = postgres.IntegerColumn("created_by")
-		allColumns           = postgres.ColumnList{IDColumn, NameColumn, DescriptionColumn, DateColumn, TeamsAmountColumn, PricePerPersonColumn, LocationColumn, CreatedAtColumn, UpdatedAtColumn, CreatedByColumn}
-		mutableColumns       = postgres.ColumnList{NameColumn, DescriptionColumn, DateColumn, TeamsAmountColumn, PricePerPersonColumn, LocationColumn, CreatedAtColumn, UpdatedAtColumn, CreatedByColumn}
+		IDColumn              = postgres.IntegerColumn("id")
+		NameColumn            = postgres.StringColumn("name")
+		DescriptionColumn     = postgres.StringColumn("description")
+		DateColumn            = postgres.TimestampzColumn("date")
+		TeamsAmountColumn     = postgres.IntegerColumn("teams_amount")
+		PricePerPersonColumn  = postgres.IntegerColumn("price_per_person")
+		LocationColumn        = postgres.StringColumn("location")
+		CreatedAtColumn       = postgres.TimestampzColumn("created_at")
+		UpdatedAtColumn       = postgres.TimestampzColumn("updated_at")
+		CreatedByColumn       = postgres.IntegerColumn("created_by")
+		RegisteredTeamsColumn = postgres.IntegerColumn("registered_teams")
+		allColumns            = postgres.ColumnList{IDColumn, NameColumn, DescriptionColumn, DateColumn, TeamsAmountColumn, PricePerPersonColumn, LocationColumn, CreatedAtColumn, UpdatedAtColumn, CreatedByColumn, RegisteredTeamsColumn}
+		mutableColumns        = postgres.ColumnList{NameColumn, DescriptionColumn, DateColumn, TeamsAmountColumn, PricePerPersonColumn, LocationColumn, CreatedAtColumn, UpdatedAtColumn, CreatedByColumn, RegisteredTeamsColumn}
 	)
 
 	return gamesTable{
 		Table: postgres.NewTable(schemaName, tableName, alias, allColumns...),
 
 		//Columns
-		ID:             IDColumn,
-		Name:           NameColumn,
-		Description:    DescriptionColumn,
-		Date:           DateColumn,
-		TeamsAmount:    TeamsAmountColumn,
-		PricePerPerson: PricePerPersonColumn,
-		Location:       LocationColumn,
-		CreatedAt:      CreatedAtColumn,
-		UpdatedAt:      UpdatedAtColumn,
-		CreatedBy:      CreatedByColumn,
+		ID:              IDColumn,
+		Name:            NameColumn,
+		Description:     DescriptionColumn,
+		Date:            DateColumn,
+		TeamsAmount:     TeamsAmountColumn,
+		PricePerPerson:  PricePerPersonColumn,
+		Location:        LocationColumn,
+		CreatedAt:       CreatedAtColumn,
+		UpdatedAt:       UpdatedAtColumn,
+		CreatedBy:       CreatedByColumn,
+		RegisteredTeams: RegisteredTeamsColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,

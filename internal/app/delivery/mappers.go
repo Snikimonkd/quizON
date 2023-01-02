@@ -33,14 +33,15 @@ func httpToPgGame(ctx context.Context, in apiModels.CreateGameRequest) (model.Ga
 	}, nil
 }
 
-func pgToHttpGame(in model.Games) apiModels.CreateGameResponse {
-	return apiModels.CreateGameResponse{
-		ID:             in.ID,
-		Name:           in.Name,
-		Description:    in.Description,
-		Date:           in.Date,
-		TeamsAmount:    in.TeamsAmount,
-		PricePerPerson: in.PricePerPerson,
-		Location:       in.Location,
+func pgToHttpGame(in model.Games) apiModels.Game {
+	return apiModels.Game{
+		ID:              in.ID,
+		Name:            in.Name,
+		Description:     in.Description,
+		Date:            in.Date,
+		TeamsAmount:     in.TeamsAmount,
+		RegisteredTeams: in.RegisteredTeams,
+		PricePerPerson:  in.PricePerPerson,
+		Location:        in.Location,
 	}
 }

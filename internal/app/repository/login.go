@@ -21,9 +21,7 @@ func (r *repository) GetUserByLogin(ctx context.Context, tx pgx.Tx, login string
 	).WHERE(table.Users.Login.EQ(postgres.String(login)))
 
 	query, args := stmt.Sql()
-
 	var user model.Users
-
 	err := tx.QueryRow(ctx, query, args...).Scan(&user.ID, &user.Login, &user.Password)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return model.Users{}, helpers.NewHttpError(http.StatusForbidden, err, helpers.AuthenticationError)
@@ -36,10 +34,6 @@ func (r *repository) GetUserByLogin(ctx context.Context, tx pgx.Tx, login string
 }
 
 func (r *repository) CreateCookie(ctx context.Context, tx pgx.Tx, id int32) (model.Cookies, error) {
-	cookie := model.Cookies{
-		UserID: id,
-	}
-
 	stmt := table.Cookies.INSERT(
 		table.Cookies.UserID,
 	).VALUES(
@@ -48,7 +42,9 @@ func (r *repository) CreateCookie(ctx context.Context, tx pgx.Tx, id int32) (mod
 		table.Cookies.Value,
 		table.Cookies.ExpiresAt,
 	)
+
 	query, args := stmt.Sql()
+	cookie := model.Cookies{UserID: id}
 
 	err := tx.QueryRow(ctx, query, args...).Scan(&cookie.Value, &cookie.ExpiresAt)
 	if err != nil {

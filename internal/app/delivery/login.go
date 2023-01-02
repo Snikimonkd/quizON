@@ -16,21 +16,21 @@ func (d *delivery) Login(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var user apiModels.LoginRequest
-	err := MarshalRequest(r.Body, &user)
+	err := UnmarshalRequest(r.Body, &user)
 	if err != nil {
-		helpers.HandleHttpError(w, err)
+		helpers.HandleError(w, helpers.NewHttpError(http.StatusBadRequest, err, "can't unmarshal body"))
 		return
 	}
 
 	err = apiModels.Validate(user)
 	if err != nil {
-		helpers.HandleHttpError(w, err)
+		helpers.HandleError(w, err)
 		return
 	}
 
 	cookie, err := d.loginUsecase.Login(ctx, user)
 	if err != nil {
-		helpers.HandleHttpError(w, err)
+		helpers.HandleError(w, err)
 		return
 	}
 

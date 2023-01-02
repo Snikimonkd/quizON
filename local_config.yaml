@@ -2,7 +2,7 @@ server:
   port: 8080
 
 database:
-  dsn: "postgres://postgres:postgrespw@localhost:55008/postgres?sslmode=disable"
+  dsn: "postgres://postgres:postgrespw@localhost:55002/postgres?sslmode=disable"
 
 cookie:
   domain: localhost

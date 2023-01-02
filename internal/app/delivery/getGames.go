@@ -8,14 +8,14 @@ import (
 	"quizON/internal/model/postgres/public/model"
 )
 
-type CreateGameUsecase interface {
-	CreateGame(ctx context.Context, game model.Games) (model.Games, error)
+type GetGamesUsecase interface {
+	GetGames(ctx context.Context, page int32, perPage int32) ([]model.Games, error)
 }
 
-func (d *delivery) CreateGame(w http.ResponseWriter, r *http.Request) {
+func (d *delivery) GetGames(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
-	var req apiModels.CreateGameRequest
+	var req apiModels.GetGamesRequest
 	err := UnmarshalRequest(r.Body, &req)
 	if err != nil {
 		helpers.HandleError(w, err)
@@ -28,20 +28,18 @@ func (d *delivery) CreateGame(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	pgGame, err := httpToPgGame(ctx, req)
+	pgGames, err := d.getGamesUsecase.GetGames(ctx, req.Page, req.PerPage)
 	if err != nil {
 		helpers.HandleError(w, err)
-		return
 	}
 
-	pgGame, err = d.createGameUsecase.CreateGame(ctx, pgGame)
-	if err != nil {
-		helpers.HandleError(w, err)
-		return
+	httpGames := make([]apiModels.Game, 0, len(pgGames))
+	for _, v := range pgGames {
+		httpGames = append(httpGames, pgToHttpGame(v))
 	}
 
-	resp := apiModels.CreateGameResponse{
-		Game: pgToHttpGame(pgGame),
+	resp := apiModels.GetGamesResponse{
+		Games: httpGames,
 	}
 
 	helpers.ResponseWithJson(w, http.StatusOK, resp)

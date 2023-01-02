@@ -39,26 +39,26 @@ func (c *checkCookieMiddleware) CheckCookie(next http.Handler) http.Handler {
 		cookie, err := r.Cookie("token")
 		if err != nil {
 			resp := helpers.NewHttpError(http.StatusUnauthorized, fmt.Errorf("can't find cookie in request: %v", err), helpers.UnauthorizedError)
-			helpers.HandleHttpError(w, resp)
+			helpers.HandleError(w, resp)
 			return
 		}
 
 		value, err := uuid.Parse(cookie.Value)
 		if err != nil {
 			resp := helpers.NewHttpError(http.StatusUnauthorized, fmt.Errorf("cna't parse cookie uuid: %v", err), helpers.UnauthorizedError)
-			helpers.HandleHttpError(w, resp)
+			helpers.HandleError(w, resp)
 			return
 		}
 
 		id, err := c.checkCookieRepository.CheckCookie(ctx, value)
 		if errors.Is(err, repository.NotFoundError) {
 			resp := helpers.NewHttpError(http.StatusUnauthorized, nil, helpers.UnauthorizedError)
-			helpers.HandleHttpError(w, resp)
+			helpers.HandleError(w, resp)
 			return
 		}
 		if err != nil {
 			resp := helpers.NewHttpError(http.StatusInternalServerError, fmt.Errorf("cna't check cookie in db: %v", err), helpers.UnauthorizedError)
-			helpers.HandleHttpError(w, resp)
+			helpers.HandleError(w, resp)
 			return
 		}
 

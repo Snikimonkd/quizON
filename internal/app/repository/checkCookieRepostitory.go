@@ -35,9 +35,10 @@ func (c *checkCookieRepository) CheckCookie(ctx context.Context, value uuid.UUID
 	stmt := table.Cookies.SELECT(table.Cookies.UserID).
 		WHERE(table.Cookies.Value.EQ(postgres.UUID(value)).
 			AND(table.Cookies.ExpiresAt.GT(postgres.TimestampzT(time.Now()))))
-	query, args := stmt.Sql()
 
+	query, args := stmt.Sql()
 	var id int32
+
 	err := c.db.QueryRow(ctx, query, args...).Scan(&id)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return -1, NotFoundError

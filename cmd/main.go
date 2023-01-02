@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 	"quizON/internal/app/delivery"
-	middleware2 "quizON/internal/app/middleware"
+	cookieMiddleware "quizON/internal/app/middleware"
 	"quizON/internal/config"
 	"quizON/internal/logger"
 
@@ -20,12 +20,15 @@ func main() {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
-	checkCookieMiddleware := middleware2.NewCheckCookieMiddleware(db)
+	// мидалварь, которая проверяет куки
+	checkCookieMiddleware := cookieMiddleware.NewCheckCookieMiddleware(db)
 	service := delivery.NewDelivery(db)
 
+	// создание игры только для залогиненных админов
 	r.With(checkCookieMiddleware.CheckCookie).Post("/game", service.CreateGame)
 
 	r.Post("/login", service.Login)
+	r.Get("/games", service.GetGames)
 
 	logger.Infof("server start at port: %v", config.GlobalConfig.Server.Port)
 	err := http.ListenAndServe(":"+config.GlobalConfig.Server.Port, r)
