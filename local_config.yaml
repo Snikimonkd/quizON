@@ -1,8 +1,9 @@
 server:
   port: 8080
 
+# TODO: надо както сделать чтобы эта штука была одинаковой внутри контейнеров и на локалке
 database:
-  dsn: "postgres://postgres:postgrespw@localhost:55002/postgres?sslmode=disable"
+  dsn: "postgres://postgres:postgrespw@quizon-db:5432/postgres?sslmode=disable"
 
 cookie:
   domain: localhost

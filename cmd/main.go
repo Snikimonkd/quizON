@@ -29,7 +29,6 @@ func main() {
 
 	r.Post("/login", service.Login)
 	r.Post("/registration", service.Register)
-
 	r.Get("/games", service.GetGames)
 
 	logger.Infof("server start at port: %v", config.GlobalConfig.Server.Port)

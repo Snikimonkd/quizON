@@ -31,6 +31,7 @@ func (d *delivery) GetRegistrations(w http.ResponseWriter, r *http.Request) {
 	registrations, err := d.getRegistrationsUsecase.GetRegistrations(ctx, req.GameID)
 	if err != nil {
 		helpers.HandleError(w, err)
+		return
 	}
 
 	responseRegistrations := make([]apiModels.Registration, 0, len(registrations))

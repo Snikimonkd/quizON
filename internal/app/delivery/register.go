@@ -33,6 +33,7 @@ func (d *delivery) Register(w http.ResponseWriter, r *http.Request) {
 	num, err := d.registerUsecase.Register(ctx, registration)
 	if err != nil {
 		helpers.HandleError(w, err)
+		return
 	}
 
 	response := apiModels.RegisterResponse{

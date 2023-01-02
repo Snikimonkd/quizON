@@ -3,11 +3,13 @@ package repository
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"quizON/internal/app/helpers"
 	"quizON/internal/model/postgres/public/model"
 	"quizON/internal/model/postgres/public/table"
 
 	"github.com/go-jet/jet/v2/postgres"
+	"github.com/jackc/pgx/v4"
 )
 
 func (r *repository) SetRegisteredTeams(ctx context.Context, gameID int32) (int32, error) {
@@ -20,6 +22,9 @@ func (r *repository) SetRegisteredTeams(ctx context.Context, gameID int32) (int3
 	var res int32
 
 	err := r.db.QueryRow(ctx, query, args...).Scan(&res)
+	if err == pgx.ErrNoRows {
+		return -1, helpers.NewHttpError(http.StatusBadRequest, fmt.Errorf("can't update game with id: %w", err), "неправильно указан id игры")
+	}
 	if err != nil {
 		return -1, helpers.NewInternalError(fmt.Errorf("can't set registered teams: %w", err))
 	}

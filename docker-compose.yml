@@ -1,0 +1,35 @@
+version: "3"
+
+networks:
+  front-tier:
+  back-tier:
+
+services:
+  quizon-db:
+    image: postgres:latest
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+      - goose -dir migrations postgres "postgres://postgres:postgrespw@quizon-db:5432/postgres?sslmode=disable" up
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+      POSTGRES_PASSWORD: "postgrespw"
+    ports:
+      - "5432:5432"
+    networks:
+      - back-tier
+    restart: always
+
+  quizon-app:
+    depends_on:
+      - quizon-db
+    build:
+      context: .
+      dockerfile: ./build/Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - back-tier
+
+volumes:
+  database_data:
+    driver: local

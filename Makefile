@@ -1,4 +1,5 @@
 LOCAL_DB_DSN:=$(shell grep -A1 'database' local_config.yaml | tail -n1 | sed "s/.*dsn: //g" | sed "s/\"//g")
+APP_PORT:=$(shell grep -A1 'server' local_config.yaml | tail -n1 | sed "s/.*port: //g" | sed "s/\"//g")
 
 create-migration:
 	goose -dir migrations create $(NAME) sql
@@ -14,3 +15,6 @@ run:
 
 jet:
 	@PATH=$(LOCAL_BIN):$(PATH) jet -dsn $(LOCAL_DB_DSN) -path=./internal/model -schema=public
+
+run-docker:
+	docker compose up
