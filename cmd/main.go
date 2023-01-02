@@ -28,6 +28,8 @@ func main() {
 	r.With(checkCookieMiddleware.CheckCookie).Post("/game", service.CreateGame)
 
 	r.Post("/login", service.Login)
+	r.Post("/register", service.Register)
+
 	r.Get("/games", service.GetGames)
 
 	logger.Infof("server start at port: %v", config.GlobalConfig.Server.Port)

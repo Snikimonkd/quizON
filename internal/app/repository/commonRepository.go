@@ -40,7 +40,7 @@ func (c *commonRepository) BeginTx(ctx context.Context) (pgx.Tx, error) {
 func (c *commonRepository) CommitTx(ctx context.Context, tx pgx.Tx) error {
 	err := tx.Commit(ctx)
 	if err != nil {
-		return helpers.NewInternalError(fmt.Errorf("can't cpmmit transaction: %w", err))
+		return helpers.NewInternalError(fmt.Errorf("can't commit transaction: %w", err))
 	}
 
 	return nil

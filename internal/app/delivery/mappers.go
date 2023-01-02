@@ -45,3 +45,14 @@ func pgToHttpGame(in model.Games) apiModels.Game {
 		Location:        in.Location,
 	}
 }
+
+func httpToPgRegister(in apiModels.RegisterRequest) model.Registrations {
+	return model.Registrations{
+		GameID:      in.GameID,
+		TeamName:    in.TeamName,
+		CaptainName: in.CaptainName,
+		Phone:       in.Phone,
+		Telega:      in.Telega,
+		Amount:      in.Amount,
+	}
+}
