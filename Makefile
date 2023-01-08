@@ -7,6 +7,9 @@ create-migration:
 migrate-up:
 	goose -dir migrations postgres "$(LOCAL_DB_DSN)" up
 
+migrate-test:
+	goose -dir test_migrations postgres "$(LOCAL_DB_DSN)" up
+
 migrate-down:
 	goose -dir migrations postgres "$(LOCAL_DB_DSN)" down
 

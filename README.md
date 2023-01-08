@@ -2,10 +2,22 @@
 
 # Как запустить
 
+## Запустить сервис в контейнере и базу
+
 ```bash
 make docker compose up
 make migrate-up
 ```
+
+## Создать тестового юзера
+
+```bash
+make migrate-test
+```
+
+Логин: `test-user`
+
+Пароль: `12345678`
 
 # MVP
 
