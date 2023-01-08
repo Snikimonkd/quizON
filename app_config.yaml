@@ -1,0 +1,10 @@
+# конфиг для приложения (внутри докера сеть немного всрато работает)
+server:
+  port: 8080
+
+database:
+  dsn: "postgres://postgres:postgrespw@quizon-db:5432/postgres?sslmode=disable"
+
+cookie:
+  domain: localhost
+  secure: false

@@ -9,7 +9,6 @@ services:
     image: postgres:latest
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
-      - goose -dir migrations postgres "postgres://postgres:postgrespw@quizon-db:5432/postgres?sslmode=disable" up
     environment:
       POSTGRES_HOST_AUTH_METHOD: "trust"
       POSTGRES_PASSWORD: "postgrespw"

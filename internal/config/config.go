@@ -10,7 +10,7 @@ import (
 var GlobalConfig config
 
 const (
-	configPath = "local_config.yaml"
+	configPath = "app_config.yaml"
 )
 
 func init() {
