@@ -3,8 +3,8 @@
 # Как запустить
 
 ```bash
-	make docker compose up
-	make migrate-up
+make docker compose up
+make migrate-up
 ```
 
 # MVP
